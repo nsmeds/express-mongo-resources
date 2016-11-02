@@ -1,0 +1,31 @@
+{
+  "name": "express-mongo-resources",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "mocha",
+    "test:watch": "npm test -w",
+    "lint": "eslint .",
+    "start": "npm test && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codefellows-portland-javascript-401d4/express-mongo-resources.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codefellows-portland-javascript-401d4/express-mongo-resources/issues"
+  },
+  "homepage": "https://github.com/codefellows-portland-javascript-401d4/express-mongo-resources#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "express": "^4.14.0",
+    "mocha": "^3.1.2",
+    "mongoose": "^4.6.5"
+  }
+}
