@@ -31,6 +31,16 @@ describe('user api', () => {
     age: 40
   };
 
+  const fanGirl = {
+      name: 'DJ Tanner',
+      age: 36
+    };
+
+  const fan = {
+      name: 'Rocky Rockin',
+      age: 64
+    };
+
   it('/GET all', done => {
     request
       .get('/api/users')
@@ -89,19 +99,38 @@ describe('user api', () => {
   it('/PUT a new age on a user', done => {
     request
       .put(`/api/users/${fanBoy._id}`)
-      .send({age: 21})
+      .send({age: 23})
       .then( (res) => {
-        assert.deepEqual(res.body.age, 21);
+        assert.deepEqual(res.body.age, 23);
         done();
       })
       .catch(done);
+  });
+
+  it('/GET the average age of all users', done => {
+    request
+      .post('/api/users/')
+      .send(fanGirl)
+      .then( () => {
+        request
+          .post('/api/users/')
+            .send(fan)
+            .then( () => {
+              request
+                .get('/api/users/average-age')
+                .then( res => {
+                  assert.deepEqual(res.body.averageAge, 41);
+                  done();
+                });
+            });
+      });
   });
 
   it('/DELETE a user', done => {
     request
       .del(`/api/users/${fanBoy._id}`)
       .then( (deleted) => {
-        assert.deepEqual(deleted.text, '{"ok":1,"n":1}');
+        assert.deepEqual(deleted.body.name, fanBoy.name);
         done();
       })
       .catch(done);
