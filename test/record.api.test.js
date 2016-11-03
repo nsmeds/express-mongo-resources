@@ -60,8 +60,7 @@ describe('record api', () => {
     request
       .get(`/api/records/${dylan._id}`)
       .then(res => {
-        const record = res.body;
-        assert.deepEqual(record, dylan);
+        assert.deepEqual(res.body, dylan);
         done();
       })
       .catch(done);
@@ -88,14 +87,22 @@ describe('record api', () => {
       .catch(done);
   });
 
-  it('/PUT a new title on a record', done => {
+    it('/PUT a new title on a record', done => {
     request
       .put(`/api/records/${dylan._id}`)
+      .send({title: 'Blood on the Tracks'})
       .then( (res) => {
-        res.body.title = 'Blood on the Tracks';
-        dylan.title = res.body.title;
-        assert.deepEqual(dylan.title, 'Blood on the Tracks');
-        console.log(dylan);
+        assert.deepEqual(res.body.title, 'Blood on the Tracks');
+        done();
+      })
+      .catch(done);
+  });
+
+  it('/DELETE a record', done => {
+    request
+      .del(`/api/records/${dylan._id}`)
+      .then( (deleted) => {
+        assert.deepEqual(deleted.text, '{"ok":1,"n":1}');
         done();
       })
       .catch(done);
