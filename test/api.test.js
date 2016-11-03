@@ -14,7 +14,7 @@ describe('album', () => {
     else connection.on('open', dropCollection);
 
     function dropCollection(){
-      const name = 'albums';
+      const name = 'records';
       connection.db
         .listCollections({name})
         .next((err, collinfo) => {
@@ -88,6 +88,8 @@ describe('album', () => {
       .catch(done);
   });
 
-  after(done => connection.close(done));
+  after(done => {
+    connection.close(done);
+  });
 
 });
