@@ -40,7 +40,7 @@ describe('user api', () => {
       });
   });
 
-  it('/POST', done => {
+  it('/POST a new user', done => {
     request
       .post('/api/users')
       .send(fanBoy)
@@ -81,6 +81,27 @@ describe('user api', () => {
       .query({age: 40})
       .then(res => {
         assert.deepEqual(res.body, [fanBoy]);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('/PUT a new age on a user', done => {
+    request
+      .put(`/api/users/${fanBoy._id}`)
+      .send({age: 21})
+      .then( (res) => {
+        assert.deepEqual(res.body.age, 21);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('/DELETE a user', done => {
+    request
+      .del(`/api/users/${fanBoy._id}`)
+      .then( (deleted) => {
+        assert.deepEqual(deleted.text, '{"ok":1,"n":1}');
         done();
       })
       .catch(done);

@@ -42,7 +42,7 @@ describe('record api', () => {
       .catch(done);
   });
 
-  it('/POST', done => {
+  it('/POST a new record', done => {
     request
       .post('/api/records')
       .send(dylan)
