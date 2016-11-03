@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 const connection = require('../lib/setup-mongoose');
 const app = require('../lib/app');
 
-describe('album', () => {
+describe('user api', () => {
 
   before(done => {
     const CONNECTED = 1;
@@ -14,7 +14,7 @@ describe('album', () => {
     else connection.on('open', dropCollection);
 
     function dropCollection(){
-      const name = 'records';
+      const name = 'users';
       connection.db
         .listCollections({name})
         .next((err, collinfo) => {
@@ -23,45 +23,43 @@ describe('album', () => {
         });
     }
   });
-  
+
   const request = chai.request(app);
 
-  const dylan = {
-    artist: 'Bob Dylan',
-    title: 'Desire',
-    year: 1975
+  const fanBoy = {
+    name: 'DJ Laptop',
+    age: 40
   };
 
   it('/GET all', done => {
     request
-      .get('/api/records')
+      .get('/api/users')
       .then(res => {
         assert.deepEqual(res.body, []);
         done();
-      })
-      .catch(done);
+      });
   });
 
   it('/POST', done => {
     request
-      .post('/api/records')
-      .send(dylan)
+      .post('/api/users')
+      .send(fanBoy)
       .then(res => {
-        const record = res.body;
-        assert.ok(record._id);
-        dylan.__v = 0;
-        dylan._id = record._id;
+        const user = res.body;
+        assert.ok(user._id);
+        fanBoy.__v = 0;
+        fanBoy._id = user._id;
         done();
       })
       .catch(done);
   });
 
-  it('/GET by id', done => {
+  it('/GET a user by id', done => {
     request
-      .get(`/api/records/${dylan._id}`)
+      .get(`/api/users/${fanBoy._id}`)
       .then(res => {
-        const record = res.body;
-        assert.deepEqual(record, dylan);
+        const user = res.body;
+        assert.deepEqual(user, fanBoy);
         done();
       })
       .catch(done);
@@ -69,27 +67,22 @@ describe('album', () => {
 
   it('/GET all after post', done => {
     request
-      .get('/api/records/')
+      .get('/api/users')
       .then(res => {
-        assert.deepEqual(res.body, [dylan]);
+        assert.deepEqual(res.body, [fanBoy]);
         done();
       })
       .catch(done);
   });
 
-  it('/GET records for a specific year', done => {
+  it('/GET users of a specific age', done => {
     request
-      .get('/api/records')
-      .query({year: 1975})
+      .get('/api/users')
+      .query({age: 40})
       .then(res => {
-        assert.deepEqual(res.body, [dylan]);
+        assert.deepEqual(res.body, [fanBoy]);
         done();
       })
       .catch(done);
   });
-
-  after(done => {
-    connection.close(done);
-  });
-
 });
