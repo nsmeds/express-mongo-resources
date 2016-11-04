@@ -22,10 +22,13 @@
   "homepage": "https://github.com/codefellows-portland-javascript-401d4/express-mongo-resources#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "chai": "^3.5.0",
-    "chai-http": "^3.0.0",
     "express": "^4.14.0",
-    "mocha": "^3.1.2",
     "mongoose": "^4.6.5"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2",
+    "chai-http": "^3.0.0",
+    "eslint": "^3.9.1"
   }
 }
